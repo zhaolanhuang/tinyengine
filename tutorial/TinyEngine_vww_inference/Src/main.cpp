@@ -95,19 +95,19 @@ int main(void) {
   }
 #endif
 
-  int camErr = initCamera();
+//  int camErr = initCamera();
 
   uint32_t start, end;
-  StartCapture();
+//  StartCapture();
   signed char *input = getInput();
-
+  signed char *ptr_array_person = person;
   RGBbuf = (uint16_t *)&input[80 * 80 * 4];
   int t_mode = 0;
   while (1) {
     start = HAL_GetTick();
-    ReadCapture();
-    StartCapture();
-    DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
+//    ReadCapture();
+//    StartCapture();
+//    DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
     for (int i = 0; i < RES_W; i++) {
       for (int j = 0; j < RES_W; j++) {
         uint8_t red = (int32_t)input[(80 * i + j) * 3] + 128;
@@ -127,9 +127,11 @@ int main(void) {
   	int person = 0;
   	if (out_int[0] > out_int[1]) {
   	  person = 0;
+  	  memcpy(input, ptr_array_person, 19200);
   	}
   	else {
   	  person = 1;
+  	  memcpy(input, no_person, 19200);
   	}
   	end = HAL_GetTick();
   	sprintf(showbuf, " Inference ");

@@ -4,9 +4,12 @@ APPLICATION = tinyengine_inference
 # If no BOARD is found in the environment, use this default:
 BOARD ?= stm32f746g-disco
 
+
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(HOME)/RIOT/
-
+#DIR
+DIRS += sys
+DIRS += $(PWD)/../Drivers/STM32F7xx_HAL_Driver/Src
 # Uncomment these lines if you want to use platform support from external
 # repositories:
 #RIOTCPU ?= $(CURDIR)/../../../thirdparty_cpu
@@ -30,29 +33,35 @@ QUIET ?= 1
 # Features required
 FEATURES_REQUIRED += cpp # basic C++ support
 FEATURES_REQUIRED += libstdcpp # libstdc++ support (for #include <cstdio>)
-
+# USEPKG += stm32cmsis
 # If you want to add some extra flags when compile c++ files, add these flags
 # to CXXEXFLAGS variable
 
 # Copy From STM32CUBE
-CXXEXFLAGS += -mcpu=cortex-m7 -std=c++11 -g -DSTM32F746xx
+# CXXEXFLAGS += -mcpu=cortex-m7 -std=c++11 -g -DSTM32F746xx
+CXXEXFLAGS += -mcpu=cortex-m7 -std=c++11 -g
+
 CXXEXFLAGS += -Ofast -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit 
 CXXEXFLAGS += -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb
 
-CFLAGS += -mcpu=cortex-m7 -std=c11 -g -DSTM32F746xx
+# CFLAGS += -mcpu=cortex-m7 -std=c11 -g -DSTM32F746xx
+CFLAGS += -mcpu=cortex-m7 -std=c11 -g
 CFLAGS += -Ofast -ffunction-sections -fdata-sections -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb
+override CFLAGS:=$(filter-out -D__SYSTEM_STM32F7XX_H,$(CFLAGS))
 
-INCLUDES += -I../
-INCLUDES += -I../Src
-INCLUDES += -I../Src/TinyEngine/include
-INCLUDES += -I../Src/TinyEngine/include/arm_cmsis
-INCLUDES += -I../Src/TinyEngine/codegen/Include
-INCLUDES += -I../Inc
-INCLUDES += -I../Drivers/STM32F7xx_HAL_Driver/Inc
-INCLUDES += -I../Drivers/BSP/STM32746G-Discovery
-INCLUDES += -I../Drivers/CMSIS/Include
-INCLUDES += -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include
-INCLUDES += -Isys
-INCLUDES += -Itesting_data
+INCLUDES += -I$(PWD)/../
+INCLUDES += -I$(PWD)/../Src
+INCLUDES += -I$(PWD)/../Src/TinyEngine/include
+INCLUDES += -I$(PWD)/../Src/TinyEngine/include/arm_cmsis
+INCLUDES += -I$(PWD)/../Src/TinyEngine/codegen/Include
+INCLUDES += -I$(PWD)/../Inc
+INCLUDES += -I$(PWD)/../Drivers/STM32F7xx_HAL_Driver/Inc
+INCLUDES += -I$(PWD)/../Drivers/BSP/STM32746G-Discovery
+INCLUDES += -I$(PWD)/../Drivers/CMSIS/Include
+INCLUDES += -I$(PWD)/../Drivers/CMSIS/Device/ST/STM32F7xx/Include
+INCLUDES += -I$(PWD)/sys
+INCLUDES += -I$(PWD)/
+
+
 
 include $(RIOTBASE)/Makefile.include

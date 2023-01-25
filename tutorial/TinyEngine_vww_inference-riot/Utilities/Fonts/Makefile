@@ -1,3 +1,3 @@
-MODULE = tinyengine_hal_driver
+MODULE = tinyengine_fonts
 
 include $(RIOTBASE)/Makefile.base

@@ -7,16 +7,25 @@ BOARD ?= stm32f746g-disco
 
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(HOME)/RIOT/
+
+USEMODULE += tinyengine_stm32f746g_bsp tinyengine_hal_driver tinyengine_fonts
+# USEMODULE += tinyengine_stm32_sys
+USEMODULE += tinyengine_codegen
+USEMODULE += tinyengine_core
+USEMODULE += tinyengine_core_fp_backward_op
+USEMODULE += tinyengine_core_fp_requantize_op
+USEMODULE += tinyengine_core_int_forward_op
 #DIR
 DIRS += sys
 DIRS += $(PWD)/../Drivers/STM32F7xx_HAL_Driver/Src
 DIRS += $(PWD)/../Drivers/BSP/STM32746G-Discovery
 DIRS += $(PWD)/../Utilities/Fonts
 DIRS += ./TinyEngine/codegen
+DIRS += ./TinyEngine/src
 
-USEMODULE += tinyengine_stm32f746g_bsp tinyengine_hal_driver tinyengine_fonts
-# USEMODULE += tinyengine_stm32_sys
-USEMODULE += tinyengine_codegen
+
+
+
 # Uncomment these lines if you want to use platform support from external
 # repositories:
 #RIOTCPU ?= $(CURDIR)/../../../thirdparty_cpu
@@ -35,7 +44,7 @@ USEMODULE += tinyengine_codegen
 DEVELHELP ?= 1
 
 # Change this to 0 show compiler invocation lines by default:
-QUIET ?= 1
+QUIET ?= 0
 WERROR ?= 0
 
 # Features required

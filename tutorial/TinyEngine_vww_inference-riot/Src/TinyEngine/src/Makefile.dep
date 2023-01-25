@@ -1,0 +1,3 @@
+USEMODULE += tinyengine_core_fp_backward_op
+USEMODULE += tinyengine_core_fp_requantize_op
+USEMODULE += tinyengine_core_int_forward_op

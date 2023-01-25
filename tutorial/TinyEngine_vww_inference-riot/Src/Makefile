@@ -10,6 +10,10 @@ RIOTBASE ?= $(HOME)/RIOT/
 #DIR
 DIRS += sys
 DIRS += $(PWD)/../Drivers/STM32F7xx_HAL_Driver/Src
+DIRS += $(PWD)/../Drivers/BSP/STM32746G-Discovery
+DIRS += $(PWD)/../Utilities/Fonts
+
+USEMODULE += tinyengine_stm32f746g_bsp tinyengine_stm32_sys tinyengine_hal_driver tinyengine_fonts
 # Uncomment these lines if you want to use platform support from external
 # repositories:
 #RIOTCPU ?= $(CURDIR)/../../../thirdparty_cpu
@@ -29,6 +33,7 @@ DEVELHELP ?= 1
 
 # Change this to 0 show compiler invocation lines by default:
 QUIET ?= 1
+WERROR ?= 0
 
 # Features required
 FEATURES_REQUIRED += cpp # basic C++ support
@@ -38,16 +43,14 @@ FEATURES_REQUIRED += libstdcpp # libstdc++ support (for #include <cstdio>)
 # to CXXEXFLAGS variable
 
 # Copy From STM32CUBE
-# CXXEXFLAGS += -mcpu=cortex-m7 -std=c++11 -g -DSTM32F746xx
-CXXEXFLAGS += -mcpu=cortex-m7 -std=c++11 -g
-
+CXXEXFLAGS += -mcpu=cortex-m7 -std=c++11 -g -DSTM32F746xx
 CXXEXFLAGS += -Ofast -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit 
 CXXEXFLAGS += -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb
 
-# CFLAGS += -mcpu=cortex-m7 -std=c11 -g -DSTM32F746xx
-CFLAGS += -mcpu=cortex-m7 -std=c11 -g
+CFLAGS += -mcpu=cortex-m7 -std=c11 -g -DSTM32F746xx
 CFLAGS += -Ofast -ffunction-sections -fdata-sections -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb
-override CFLAGS:=$(filter-out -D__SYSTEM_STM32F7XX_H,$(CFLAGS))
+DFLAG_SYSTEM_STM32F7XX_H = -D__SYSTEM_STM32F7XX_H
+ 
 
 INCLUDES += -I$(PWD)/../
 INCLUDES += -I$(PWD)/../Src
@@ -65,3 +68,4 @@ INCLUDES += -I$(PWD)/
 
 
 include $(RIOTBASE)/Makefile.include
+CFLAGS := $(filter-out $(DFLAG_SYSTEM_STM32F7XX_H),$(CFLAGS))

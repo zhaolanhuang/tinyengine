@@ -65,18 +65,18 @@ uint16_t *RGBbuf;
 int main(void) {
   char buf[150];
   char showbuf[150];
+  printf("main(): go! \n");
+  // CPU_CACHE_Enable();
+  // HAL_Init();
 
-  CPU_CACHE_Enable();
-  HAL_Init();
+  // SystemClock_Config();
 
-  SystemClock_Config();
+  // MX_GPIO_Init();
 
-  MX_GPIO_Init();
-
-  BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_GPIO);
-
-  lcdsetup();
-
+  // BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_GPIO);
+  printf("main(): B lcdsetup \n");
+  // lcdsetup();
+  printf("main(): E lcdsetup \n");
 #ifdef TESTTENSOR
   {
     uint32_t start, end;
@@ -121,22 +121,31 @@ int main(void) {
         RGBbuf[j + RES_W * i] = (uint16_t)(r | g | b);
       }
     }
-    loadRGB565LCD(10, 10, RES_W, RES_W, RGBbuf, 3);
-
+    // loadRGB565LCD(10, 10, RES_W, RES_W, RGBbuf, 3);
+    printf("main(): Begin Infering \n");
   	invoke_new_weights_givenimg(out_int);
+    
   	int person = 0;
   	if (out_int[0] > out_int[1]) {
   	  person = 0;
+      printf("NO PERSON \n");
   	  memcpy(input, ptr_array_person, 19200);
   	}
   	else {
   	  person = 1;
+      printf("PERSON \n");
   	  memcpy(input, no_person, 19200);
   	}
   	end = HAL_GetTick();
-  	sprintf(showbuf, " Inference ");
-  	displaystring(showbuf, 273, 10);
-  	detectResponse(person, end - start, t_mode, 0, 0);
+    printf("Ticks: %d \n", (end - start));
+    volatile float rate = 1000.0 / (end - start);
+    volatile int decimal = (int)rate;
+    volatile int floating = (int)((rate - (float)decimal) * 1000);
+    printf("  fps:%d.%03d \n", decimal, floating);
+    printf("main(): End Infering \n");
+  	// sprintf(showbuf, " Inference ");
+  	// displaystring(showbuf, 273, 10);
+  	// detectResponse(person, end - start, t_mode, 0, 0);
   }
 }
 

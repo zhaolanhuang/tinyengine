@@ -13,7 +13,8 @@ DIRS += $(PWD)/../Drivers/STM32F7xx_HAL_Driver/Src
 DIRS += $(PWD)/../Drivers/BSP/STM32746G-Discovery
 DIRS += $(PWD)/../Utilities/Fonts
 
-USEMODULE += tinyengine_stm32f746g_bsp tinyengine_stm32_sys tinyengine_hal_driver tinyengine_fonts
+USEMODULE += tinyengine_stm32f746g_bsp tinyengine_hal_driver tinyengine_fonts
+# USEMODULE += tinyengine_stm32_sys
 # Uncomment these lines if you want to use platform support from external
 # repositories:
 #RIOTCPU ?= $(CURDIR)/../../../thirdparty_cpu

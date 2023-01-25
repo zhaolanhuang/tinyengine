@@ -7,6 +7,7 @@ BOARD ?= stm32f746g-disco
 
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(HOME)/RIOT/
+USEMODULE += xtimer
 
 USEMODULE += tinyengine_stm32f746g_bsp tinyengine_hal_driver tinyengine_fonts
 # USEMODULE += tinyengine_stm32_sys
@@ -44,7 +45,7 @@ DIRS += ./TinyEngine/src
 DEVELHELP ?= 1
 
 # Change this to 0 show compiler invocation lines by default:
-QUIET ?= 0
+QUIET ?= 1
 WERROR ?= 0
 
 # Features required

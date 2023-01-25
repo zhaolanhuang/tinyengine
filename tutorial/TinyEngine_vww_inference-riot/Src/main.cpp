@@ -16,6 +16,7 @@
  * Target ISA:  ARMv7E-M
  * -------------------------------------------------------------------- */
 
+#include "xtimer.h"
 #include "main.h"
 #include "camera.h"
 #include "lcd.h"
@@ -31,6 +32,7 @@ extern "C" {
 //#define TESTTENSOR
 
 #include "stm32746g_discovery.h"
+
 
 static void SystemClock_Config(void);
 static void Error_Handler(void);
@@ -104,7 +106,7 @@ int main(void) {
   RGBbuf = (uint16_t *)&input[80 * 80 * 4];
   int t_mode = 0;
   while (1) {
-    start = HAL_GetTick();
+    start = xtimer_now_usec();
 //    ReadCapture();
 //    StartCapture();
 //    DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
@@ -136,9 +138,9 @@ int main(void) {
       printf("PERSON \n");
   	  memcpy(input, no_person, 19200);
   	}
-  	end = HAL_GetTick();
-    printf("Ticks: %d \n", (end - start));
-    volatile float rate = 1000.0 / (end - start);
+  	end = xtimer_now_usec();
+    printf("usec: %d \n", (end - start));
+    volatile float rate = 1000000.0 / (end - start);
     volatile int decimal = (int)rate;
     volatile int floating = (int)((rate - (float)decimal) * 1000);
     printf("  fps:%d.%03d \n", decimal, floating);

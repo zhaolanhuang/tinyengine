@@ -58,7 +58,7 @@ FEATURES_REQUIRED += libstdcpp # libstdc++ support (for #include <cstdio>)
 # Copy From STM32CUBE
 CXXEXFLAGS += -std=c++11 -fno-rtti -fno-use-cxa-atexit 
 
-CFLAGS_OPT  = -Ofast
+CFLAGS_OPT  = -O3
 CFLAGS += -mcpu=cortex-m7 -std=c11 -g -DSTM32F746xx
 CFLAGS += -fno-exceptions -ffunction-sections -fdata-sections 
 CFLAGS += -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb

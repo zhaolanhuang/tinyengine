@@ -68,7 +68,7 @@ int main(void) {
   char buf[150];
   char showbuf[150];
   printf("main(): go! \n");
-  // CPU_CACHE_Enable();
+  CPU_CACHE_Enable();
   // HAL_Init();
 
   // SystemClock_Config();
@@ -124,7 +124,7 @@ int main(void) {
       }
     }
     // loadRGB565LCD(10, 10, RES_W, RES_W, RGBbuf, 3);
-    printf("main(): Begin Infering \n");
+    printf("main(): Begin Inferring \n");
   	invoke_new_weights_givenimg(out_int);
     
   	int person = 0;
@@ -144,7 +144,7 @@ int main(void) {
     volatile int decimal = (int)rate;
     volatile int floating = (int)((rate - (float)decimal) * 1000);
     printf("  fps:%d.%03d \n", decimal, floating);
-    printf("main(): End Infering \n");
+    printf("main(): End Inferring \n");
   	// sprintf(showbuf, " Inference ");
   	// displaystring(showbuf, 273, 10);
   	// detectResponse(person, end - start, t_mode, 0, 0);

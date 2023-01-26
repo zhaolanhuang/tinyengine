@@ -56,15 +56,14 @@ FEATURES_REQUIRED += libstdcpp # libstdc++ support (for #include <cstdio>)
 # to CXXEXFLAGS variable
 
 # Copy From STM32CUBE
-CXXEXFLAGS += -mcpu=cortex-m7 -std=c++11 -g -DSTM32F746xx
-CXXEXFLAGS += -Ofast -ffunction-sections -fdata-sections -fno-exceptions -fno-rtti -fno-use-cxa-atexit 
-CXXEXFLAGS += -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb
+CXXEXFLAGS += -std=c++11 -fno-rtti -fno-use-cxa-atexit 
 
 CFLAGS_OPT  = -Ofast
 CFLAGS += -mcpu=cortex-m7 -std=c11 -g -DSTM32F746xx
-CFLAGS += -Ofast -ffunction-sections -fdata-sections -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb
+CFLAGS += -fno-exceptions -ffunction-sections -fdata-sections 
+CFLAGS += -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb
+
 DFLAG_SYSTEM_STM32F7XX_H = -D__SYSTEM_STM32F7XX_H
- 
 
 INCLUDES += -I$(PWD)/../
 INCLUDES += -I$(PWD)/../Src

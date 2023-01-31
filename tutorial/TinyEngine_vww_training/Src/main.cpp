@@ -93,18 +93,18 @@ int main(void) {
 
   lcdsetup();
 
-  int camErr = initCamera();
+//  int camErr = initCamera();
 
   uint32_t start, end, starti, endi;
-  StartCapture();
+//  StartCapture();
   signed char *input = getInput();
 
   RGBbuf = (uint16_t *)&input[128 * 128 * 4];
   int t_mode = 0;
   while (1) {
     starti = HAL_GetTick();
-    ReadCapture();
-    StartCapture();
+//    ReadCapture();
+//    StartCapture();
     DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
     for (int i = 0; i < 128 * 8 * 3; i++) {
       input[120 * 128 * 3 + i] = -128;
@@ -168,8 +168,8 @@ int main(void) {
         end = HAL_GetTick();
         detectResponse(answer_right, 0, t_mode, p, label);
 
-        ReadCapture();
-        StartCapture();
+//        ReadCapture();
+//        StartCapture();
         DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
         displaystring(showbuf, 273, 10);
         start = HAL_GetTick();
@@ -191,6 +191,7 @@ int main(void) {
       }
       end = HAL_GetTick();
       sprintf(showbuf, " Inference ");
+      printLog(showbuf);
       displaystring(showbuf, 273, 10);
       detectResponse(person, end - starti, t_mode, 0, 0);
     }

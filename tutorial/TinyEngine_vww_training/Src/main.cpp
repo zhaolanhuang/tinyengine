@@ -171,11 +171,13 @@ int main(void) {
 //        ReadCapture();
 //        StartCapture();
         DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
+        printLog(showbuf);
         displaystring(showbuf, 273, 10);
         start = HAL_GetTick();
         train(label);
         end = HAL_GetTick();
         sprintf(showbuf, "Train done ");
+        printLog(showbuf);
         displaystring(showbuf, 273, 10);
         detectResponse(answer_right, end - start, t_mode, p, label);
       }

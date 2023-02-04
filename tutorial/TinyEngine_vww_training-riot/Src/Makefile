@@ -7,7 +7,8 @@ BOARD ?= stm32f746g-disco
 
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(HOME)/RIOT/
-USEMODULE += xtimer
+# USEMODULE += xtimer
+# USEMODULE += stdin
 
 USEMODULE += tinyengine_stm32f746g_bsp tinyengine_hal_driver tinyengine_fonts
 # USEMODULE += tinyengine_stm32_sys
@@ -62,6 +63,7 @@ CFLAGS_OPT  = -O3
 CFLAGS += -mcpu=cortex-m7 -std=c11 -g -DSTM32F746xx
 CFLAGS += -fno-exceptions -ffunction-sections -fdata-sections 
 CFLAGS += -Wall -fstack-usage  -mfpu=fpv5-sp-d16 -mfloat-abi=hard -mthumb
+CFLAGS += -DTHREAD_STACKSIZE_DEFAULT=30000
 
 DFLAG_SYSTEM_STM32F7XX_H = -D__SYSTEM_STM32F7XX_H
 

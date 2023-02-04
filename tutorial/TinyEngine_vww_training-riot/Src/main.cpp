@@ -58,13 +58,16 @@ void train(int cls) {
     } else
       labels[i] = 0.0f;
   }
+  printf("Begin invoke \n");
   invoke(labels);
+  printf("End invoke \n");
 }
 
 void invoke_new_weights_givenimg(signed char *out_int8) {
   invoke_inf();
   signed char *output = (signed char *)getOutput();
-  for (int i = 0; i < 10; i++)
+  //FIXED: Array Out-of-bound
+  for (int i = 0; i < OUTPUT_CH; i++)
     out_int8[i] = output[i];
 }
 
@@ -83,15 +86,15 @@ int main(void) {
   char showbuf[150];
 
   CPU_CACHE_Enable();
-  HAL_Init();
+  //HAL_Init();
 
-  SystemClock_Config();
+  // SystemClock_Config();
 
-  MX_GPIO_Init();
+  // MX_GPIO_Init();
 
-  BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_GPIO);
+  // BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_GPIO);
 
-  lcdsetup();
+  // lcdsetup();
 
 //  int camErr = initCamera();
 
@@ -102,10 +105,10 @@ int main(void) {
   RGBbuf = (uint16_t *)&input[128 * 128 * 4];
   int t_mode = 0;
   while (1) {
-    starti = HAL_GetTick();
+    // starti = HAL_GetTick();
 //    ReadCapture();
 //    StartCapture();
-    DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
+    // DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
     for (int i = 0; i < 128 * 8 * 3; i++) {
       input[120 * 128 * 3 + i] = -128;
     }
@@ -123,16 +126,21 @@ int main(void) {
       }
     }
 
-    loadRGB565LCD(10, 10, RES_W, RES_W, RGBbuf, 2);
-    endi = HAL_GetTick();
-
-    uint8_t button0 = BSP_PB_GetState(BUTTON_KEY) == GPIO_PIN_SET;
-    uint8_t button1 = !HAL_GPIO_ReadPin(BUTTON1_GPIO_Port, BUTTON1_Pin);
-    uint8_t button2 = !HAL_GPIO_ReadPin(BUTTON2_GPIO_Port, BUTTON2_Pin);
+    // loadRGB565LCD(10, 10, RES_W, RES_W, RGBbuf, 2);
+    // endi = HAL_GetTick();
+    printf("Begin Read Pin \n");
+    // uint8_t button0 = BSP_PB_GetState(BUTTON_KEY) == GPIO_PIN_SET;
+    // uint8_t button1 = !HAL_GPIO_ReadPin(BUTTON1_GPIO_Port, BUTTON1_Pin);
+    // uint8_t button2 = !HAL_GPIO_ReadPin(BUTTON2_GPIO_Port, BUTTON2_Pin);
+    uint8_t button0 = 0;
+    uint8_t button1 = 0;
+    uint8_t button2 = 0;
+    printf("End Read Pin \n");
 
     char s[1];
     s[0] = 'c';
-    recieveChar(s);
+    s[0] = getchar();
+    // recieveChar(s);
     if (s[0] == '3')
       t_mode = 1;
     if (s[0] == '4')
@@ -148,8 +156,11 @@ int main(void) {
           label = 0;
         }
 
-        start = HAL_GetTick();
+        // start = HAL_GetTick();
+        printf("Begin invoke_new_weights_givenimg \n");
         invoke_new_weights_givenimg(out_int);
+        printf("End invoke_new_weights_givenimg \n");
+
         int answer_right = 0;
         int p;
         if (out_int[0] > out_int[1]) {
@@ -165,42 +176,46 @@ int main(void) {
           else
             answer_right = 0;
         }
-        end = HAL_GetTick();
-        detectResponse(answer_right, 0, t_mode, p, label);
+        // end = HAL_GetTick();
+        // detectResponse(answer_right, 0, t_mode, p, label);
 
 //        ReadCapture();
 //        StartCapture();
-        DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
-        printLog(showbuf);
-        displaystring(showbuf, 273, 10);
-        start = HAL_GetTick();
-        train(label);3
-        end = HAL_GetTick();
+        // DecodeandProcessAndRGB(RES_W, RES_H, input, RGBbuf, 1);
+        printf(showbuf);
+        // displaystring(showbuf, 273, 10);
+        // start = HAL_GetTick();
+        printf("Begin train \n");
+        train(label);
+        printf("End train\n");
+        // end = HAL_GetTick();
         sprintf(showbuf, "Train done ");
-        printLog(showbuf);
-        displaystring(showbuf, 273, 10);
-        detectResponse(answer_right, end - start, t_mode, p, label);
+        printf(showbuf);
+        // displaystring(showbuf, 273, 10);
+        // detectResponse(answer_right, end - start, t_mode, p, label);
       }
     } else {
 
-      start = HAL_GetTick();
+      // start = HAL_GetTick();
+      printf("Begin Inference \n");
       invoke_new_weights_givenimg(out_int);
+      printf("End Inference \n");
       int person = 0;
       if (out_int[0] > out_int[1]) {
         person = 1;
       } else {
         person = 0;
       }
-      end = HAL_GetTick();
+      // end = HAL_GetTick();
       sprintf(showbuf, " Inference ");
-      printLog(showbuf);
-      displaystring(showbuf, 273, 10);
-      detectResponse(person, end - starti, t_mode, 0, 0);
+      printf(showbuf);
+      // displaystring(showbuf, 273, 10);
+      // detectResponse(person, end - starti, t_mode, 0, 0);
     }
   }
 
-  while (1) {
-  }
+  // while (1) {
+  // }
 }
 void SystemClock_Config(void) {
   RCC_ClkInitTypeDef RCC_ClkInitStruct;

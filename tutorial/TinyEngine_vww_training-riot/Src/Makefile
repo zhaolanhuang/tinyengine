@@ -7,8 +7,8 @@ BOARD ?= stm32f746g-disco
 
 # This has to be the absolute path to the RIOT base directory:
 RIOTBASE ?= $(HOME)/RIOT/
-# USEMODULE += xtimer
-# USEMODULE += stdin
+USEMODULE += xtimer
+USEMODULE += stdin
 
 USEMODULE += tinyengine_stm32f746g_bsp tinyengine_hal_driver tinyengine_fonts
 # USEMODULE += tinyengine_stm32_sys
